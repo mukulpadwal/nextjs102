@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import connect from "@/db/dbConfig";
 import User from "@/models/user.model";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import conf from "@/conf/conf";
 
 connect();
 
@@ -55,14 +57,24 @@ export async function POST(request: NextRequest) {
             })
         }
 
-        return NextResponse.json({
+        // Step 6 : We need to create cookies through jwt
+        const jwtToken = jwt.sign({
+            id: user._id,
+            username: user.username
+        }, conf.jwtTokenSecret, {
+            expiresIn: '1d'
+        })
+
+        const response = NextResponse.json({
             success: true,
             message: "User Logged In successfully...",
             data: user,
-            status: 400
+            status: 200
         })
 
+        response.cookies.set("token", jwtToken, { httpOnly: true, secure: true });
 
+        return response;
     } catch (error: any) {
         return NextResponse.json({
             success: false,
