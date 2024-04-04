@@ -103,12 +103,19 @@ export default function SignUpPage() {
             />
           </div>
           <div>
-            <button disabled={buttonDisabled} onClick={handleSignUpUser}>
+            <button
+              className="border rounded-lg my-10 p-4"
+              disabled={buttonDisabled}
+              onClick={handleSignUpUser}
+            >
               SIGNUP
             </button>
           </div>
           <div>
-            Already have a account. Go to <Link href={"/login"}>LOGIN</Link>{" "}
+            Already have a account. Go to{" "}
+            <Link className="border rounded-lg my-5 p-2" href={"/login"}>
+              LOGIN
+            </Link>{" "}
             page.
           </div>
           <div className="text-3xl my-10">
