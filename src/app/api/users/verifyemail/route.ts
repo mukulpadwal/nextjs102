@@ -6,8 +6,16 @@ connect();
 
 export async function POST(request: NextRequest) {
     try {
+        // ONE WAY TO DO THIS
         // Step 1 : get token from the url
-        const token = request.nextUrl.searchParams.get("token");
+        // But not a good way as some browsers visit the link to check if it is spam email or not
+        // So there is a chance of false verification
+
+        // const token = request.nextUrl.searchParams.get("token");
+
+        const verificationToken = await request.json();
+        const { token } = verificationToken;
+   
 
         if (!token) {
             return NextResponse.json({
