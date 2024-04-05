@@ -15,7 +15,6 @@ export default function SignUpPage() {
   });
 
   const [buttonDisabled, setButtonDisabled] = useState(true);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (
@@ -30,7 +29,6 @@ export default function SignUpPage() {
   const handleSignUpUser = async () => {
     try {
       setButtonDisabled(true);
-      setLoading(true);
 
       const response = await axios.post("/api/users/signup", formData);
 
@@ -41,10 +39,9 @@ export default function SignUpPage() {
         }, 2000);
       } else {
         toast.error(response.data.message);
-        setFormData({ username: "", email: "", password: "" });
+        setFormData({ ...formData });
       }
 
-      setLoading(false);
       setButtonDisabled(false);
     } catch (error: any) {
       console.log(`Error while resgistering user. Please try again...`);
@@ -53,15 +50,17 @@ export default function SignUpPage() {
   };
 
   return (
-    <main className="w-full h-auto p-10 ">
+    <main className="flex min-h-screen flex-col items-center justify-center py-10 px-5 sm:p-24">
       <Toaster position="top-center" reverseOrder={false} />
-      <div className="w-full h-screen">
-        <h1 className="text-center text-3xl md:text-5xl">
+      <div className="w-full h-full flex flex-col justify-center items-center">
+        <h1 className="text-5xl sm:text-7xl text-center">
           Create Your Account
         </h1>
-        <div className=" my-10 flex flex-col justify-center items-center space-y-3">
-          <div className="flex flex-row justify-start items-center gap-4">
-            <label htmlFor="username">USERNAME : </label>
+        <div className="my-10 space-y-6">
+          <div className="sm:flex sm:justify-end sm:items-center gap-x-2">
+            <label className="w-1/2 inline-block" htmlFor="username">
+              USERNAME :{" "}
+            </label>
             <input
               type="text"
               id="username"
@@ -71,11 +70,13 @@ export default function SignUpPage() {
               onChange={(e) =>
                 setFormData({ ...formData, username: e.target.value })
               }
-              className="text-black"
+              className="shadow appearance-none border rounded w-full sm:w-3/4 py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
             />
           </div>
-          <div className="flex flex-row justify-start items-center gap-4">
-            <label htmlFor="email">EMAIL : </label>
+          <div className="sm:flex sm:justify-end sm:items-center gap-x-2">
+            <label className="w-1/2 inline-block" htmlFor="email">
+              EMAIL :{" "}
+            </label>
             <input
               type="email"
               id="email"
@@ -85,11 +86,13 @@ export default function SignUpPage() {
               onChange={(e) =>
                 setFormData({ ...formData, email: e.target.value })
               }
-              className="text-black"
+              className="shadow appearance-none border rounded w-full sm:w-3/4 py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
             />
           </div>
-          <div>
-            <label htmlFor="password">PASSWORD : </label>
+          <div className="sm:flex sm:justify-end sm:items-center gap-x-2">
+            <label className="w-1/2 inline-block" htmlFor="password">
+              PASSWORD :{" "}
+            </label>
             <input
               type="password"
               id="password"
@@ -99,27 +102,30 @@ export default function SignUpPage() {
               onChange={(e) =>
                 setFormData({ ...formData, password: e.target.value })
               }
-              className="text-black"
+              className="shadow appearance-none border rounded w-full sm:w-3/4 py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
             />
           </div>
-          <div>
+        </div>
+
+        <div>
+          <div className="w-full flex justify-center items-center my-6">
             <button
-              className="border rounded-lg my-10 p-4"
+              className="w-1/2 border rounded-lg text-center py-2 sm:py-2 hover:bg-slate-500"
               disabled={buttonDisabled}
               onClick={handleSignUpUser}
             >
               SIGNUP
             </button>
           </div>
-          <div>
-            Already have a account. Go to{" "}
-            <Link className="border rounded-lg my-5 p-2" href={"/login"}>
+          <div className="py-10 text-sm sm:text-base">
+            <span>Already have a account. Go to</span>
+            <Link
+              className="underline underline-offset-2 rounded-lg my-2 p-2"
+              href={"/login"}
+            >
               LOGIN
-            </Link>{" "}
-            page.
-          </div>
-          <div className="text-3xl my-10">
-            {loading && "CREATING YOUR ACCOUNT..."}
+            </Link>
+            <span>page.</span>
           </div>
         </div>
       </div>
